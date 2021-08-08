@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+    api-dev:
+        container_name: nestjs_financial_monitoring_api_dev
+        image: nestjs-financial-monitoring-api-dev:0.0.1
+        build:
+            context: .
+            target: development
+            dockerfile: ./Dockerfile
+        volumes:
+        - .:/usr/src/app
+        - ./node_modules:/usr/src/app/node_modules
+        command: >
+          sh -c "npm run seed && npm run start:dev"
+        ports:
+        - "3000:3000"
+        networks:
+            - nesjs-network
+        depends_on:
+            -  mongodb-db
+        environment:
+            NODE_ENV: development
+    mongodb-db:
+        image: mongo
+        container_name: mongo_db
+        volumes:
+            - ./data/db:/data/db
+        ports:
+            - "27017:27017"
+        expose:
+            - 27017
+        networks:
+            - nesjs-network
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=2eAyvuLMgMDZJhrB
+            - MONGO_INITDB_DATABASE=financial-system
+            - MONGODB_DATABASE=financial-system
+networks:
+    nesjs-network:
+        driver: bridge
