@@ -16,16 +16,4 @@ ENV NODE_ENV=development
 
 RUN npm install --only=development
 
-COPY . .
-
-FROM base as production
-
-ENV NODE_ENV=production
-
-RUN npm install --only=production
-
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
 CMD ["node", "dist/main"]
