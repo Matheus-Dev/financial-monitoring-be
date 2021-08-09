@@ -29,7 +29,7 @@ async function seedDB() {
             const name = `${firstName} ${lastName}`
             const title = faker.company.companyName()
             const value = faker.finance.amount()
-            const defaultedSince = faker.date.past().toISOString()
+            const defaultedSince = faker.date.past().toISOString().split('T')[0]
 
             const financial = {
                 name, title, value, defaultedSince
